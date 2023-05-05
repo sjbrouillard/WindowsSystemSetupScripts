@@ -2,13 +2,22 @@
 param (
     [Parameter()]
     [bool]
-    $AutoUpgrade = $true
+    $AutoUpgrade = $true,
+
+    [Parameter()]
+    [bool]
+    $ExcludeWingetTools = $false,
+
+    [Parameter()]
+    [bool]
+    $ExcludePowerShellModules = $false
 )
 
 Process
 {
   Test-AdminPermissions
-  Add-Tools
+  if (!$ExcludeWingetTools) { Add-WingetTools }
+  if (!$ExcludePowerShellModules) { Add-PowerShellModules }
 }
 
 Begin
@@ -22,12 +31,6 @@ Begin
       Write-Warning "This script requires elevated permissions. Please run this script as an administrator."
       exit
     }
-  }
-
-  function Add-Tools
-  {
-    Add-WingetTools
-    Add-PowerShellModules
   }
 
   function Add-WingetTools
