@@ -123,7 +123,7 @@ Begin
 
   function Set-GitConfigurations
   {
-    # Set my deafult .gotconfig file.
+    # Set my deafult .gitconfig file.
     # Configure Git to use the Yubikey for SSH authentication.
     # Configure Git to use the Yubikey for GPG signing.
     # Configure Git to use the Yubikey for GPG encryption.
