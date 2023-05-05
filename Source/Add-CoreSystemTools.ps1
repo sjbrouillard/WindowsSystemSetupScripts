@@ -3,14 +3,27 @@
 param (
     [Parameter()]
     [bool]
-    $AutoUpgrade = $true
+    $AutoUpgrade = $true,
+
+    [Parameter()]
+    [bool]
+    $ExcludeWingetTools = $false,
+
+    [Parameter()]
+    [bool]
+    $ExcludeGitConfigurations = $false,
+
+    [Parameter()]
+    [bool]
+    $ExcludePowerShellModules = $false
 )
 
 Process
 {
   Test-AdminPermissions
-  Add-CoreTools
-  Set-GitConfigurations
+  if (!$ExcludeWingetTools) { Add-WingetTools }
+  if (!$ExcludePowerShellModules) { Add-PowerShellModules }
+  if (!$ExcludeGitConfigurations) { Add-GitConfigurations }
 }
 
 Begin
@@ -25,11 +38,12 @@ Begin
       exit
     }
   }
-  function Add-CoreTools
+  function Add-WingetTools
   {
     $toolList = @(
       @{id = "Microsoft.PowerShell"; },
       @{id = "Microsoft.PowerToys"; },
+      @{id = "JanDeDobbeleer.OhMyPosh"; },
       @{id = "Microsoft.WindowsTerminal"; },
       @{id = "Microsoft.OpenSSH.Beta"; },
       @{id = "ShiningLight.OpenSSL"; },
@@ -77,6 +91,32 @@ Begin
       else
       {
         winget install --id $toolIdString
+      }
+    }
+  }
+
+  function Add-PowerShellModules
+  {
+    $powerShellModuleList =@(
+      @{moduleName = "posh-git"; },
+      @{moduleName = "Terminal-Icons"; }
+    )
+
+    foreach ($module in $powerShellModuleList)
+    {
+      # Check if the module is already installed. Upgrade if it is and AutoUpgrade is true.
+      $moduleName = $module.moduleName
+      $moduleInfo = Get-Module -ListAvailable -Name $moduleName
+      if ($moduleInfo)
+      {
+        if ($AutoUpgrade)
+        {
+          Update-Module -Name $moduleName
+        }
+      }
+      else
+      {
+        Install-Module -Name $moduleName
       }
     }
   }

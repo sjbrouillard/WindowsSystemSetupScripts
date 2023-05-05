@@ -16,11 +16,7 @@ param (
     
     [Parameter()]
     [bool]
-    $ExcludeWinget = $false,
-
-    [Parameter()]
-    [bool]
-    $ExcludePowerShellModules = $false,
+    $ExcludeWingetTools = $false,
 
     [Parameter()]
     [bool]
@@ -30,7 +26,8 @@ param (
 Process
 {
   Test-AdminPermissions
-  Add-Tools
+  if (!$ExcludeWingetTools) { Add-WingetTools }
+  if (!$ExcludeVSCodeExtensions) { Add-VSCodeExtensions }
 }
 
 Begin
@@ -50,9 +47,7 @@ Begin
   {
     $VisulaStudioConfigPath = "$($env:OneDriveConsumer)\Dev Settings\VSInstallConfigs\Microsoft.VisualStudio.2022.$($vsEdition).vsconfig"
     $wingetToolList = @(
-      @{id = "Git.Git"},
       @{id = "Curl.Curl"; },
-      @{id = "JanDeDobbeleer.OhMyPosh"; },
       @{id = "Docker.DockerDesktop"},
       @{id = "OpenJS.NodeJS"},
       @{id = "Microsoft.VisualStudio.$($VsVersion).$($vsEdition)"},
@@ -97,32 +92,6 @@ Begin
       }
     }
 
-  }
-
-  function Add-PowerShellModules
-  {
-    $powerShellModuleList =@(
-      @{moduleName = "posh-git"; },
-      @{moduleName = "Terminal-Icons"; }
-    )
-
-    foreach ($module in $powerShellModuleList)
-    {
-      # Check if the module is already installed. Upgrade if it is and AutoUpgrade is true.
-      $moduleName = $module.moduleName
-      $moduleInfo = Get-Module -ListAvailable -Name $moduleName
-      if ($moduleInfo)
-      {
-        if ($AutoUpgrade)
-        {
-          Update-Module -Name $moduleName
-        }
-      }
-      else
-      {
-        Install-Module -Name $moduleName
-      }
-    }
   }
 
   function Add-VisualStudio
@@ -223,13 +192,6 @@ Begin
         code --install-extension $extensionName
       }
     }
-  }
-
-  function Add-Tools
-  {
-    if (!$ExcludeWinget) { Add-WingetTools }
-    if (!$ExcludePowerShellModules) { Add-PowerShellModules }
-    if (!$ExcludeVSCodeExtensions ) { Add-VSCodeExtensions }
   }
 }
 
