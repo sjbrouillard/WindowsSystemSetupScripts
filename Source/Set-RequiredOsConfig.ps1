@@ -4,18 +4,18 @@
 [CmdletBinding()]
 param (
     [Parameter()]
-    [bool]
-    $AddPoshScriptLocationToUserPath = $true,
+    [switch]
+    $ExcludeAddingPoshScriptLocation,
 
     [Parameter()]
-    [bool]
-    $SetFolderOptions = $true
+    [switch]
+    $ExcludeSetFolderOptions
 )
 
 Process
 {
-  if ($AddPoshScriptLocationToUserPath) { Add-PoshScriptLocationToUserPath }
-  if ($SetFolderOptions) { Set-FolderOptions }
+  if (!$ExcludeAddingPoshScriptLocation) { Add-PoshScriptLocationToUserPath }
+  if (!$ExcludeSetFolderOptions) { Set-FolderOptions }
   Update-EnvironmentVariables
 }
 
