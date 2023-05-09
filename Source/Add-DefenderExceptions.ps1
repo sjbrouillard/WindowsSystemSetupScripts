@@ -2,14 +2,14 @@
 param (
     [Parameter(Mandatory = $true)]
     [string]
-    $ProjectFolder
+    $RootSourceCodeFolder
 )
 
 Process
 {
     Write-Host "This script will create Windows Defender exclusions for common Visual Studio 2022 folders and processes."
     Write-Host ""
-    Test-ProjectFolder
+    Test-RootSourceCodFolder
     Register-PathExclusions
     Register-ProcessExclusions
 }
@@ -18,16 +18,16 @@ Begin
 {
 
      # Validating here due to limitations of validation attributes.
-     function Test-ProjectFolder
+     function Test-RootSourceCodeFolder
      {
-         if ([string]::IsNullOrWhiteSpace($ProjectFolder))
+         if ([string]::IsNullOrWhiteSpace($RootSourceCodeFolder))
          {
-             Throw "ProjectFolder parameter can't be null or empty."
+             Throw "RootSourceCodeFolder parameter can't be null or empty."
          }
  
-         if (!(Test-Path $ProjectFolder -PathType Container))
+         if (!(Test-Path $RootSourceCodeFolder -PathType Container))
          {
-             Throw "$($ProjectFolder) not found. Please validate path."
+             Throw "$($RootSourceCodeFolder) not found. Please validate path."
          }
      }
 
@@ -37,7 +37,7 @@ Begin
         $userPath = $env:USERPROFILE
         $pathExclusions = New-Object System.Collections.ArrayList
 
-        $pathExclusions.Add($ProjectFolder) | out-null
+        $pathExclusions.Add($RootSourceCodeFolder) | out-null
         $pathExclusions.Add('C:\Windows\Microsoft.NET') | out-null
         $pathExclusions.Add('C:\Windows\assembly') | out-null
 
