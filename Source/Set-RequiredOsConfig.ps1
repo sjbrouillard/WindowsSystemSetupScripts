@@ -22,7 +22,7 @@ Process
 Begin
 {
 
-  # This adds the path where I keep my scripts to the user path.
+  # This adds the path where I keep my daily-use scripts to the user path.
   function Add-PoshScriptLocationToUserPath
   {
     $currentUserPathVariableToTest = [Environment]::GetEnvironmentVariable("Path","User")
