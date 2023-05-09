@@ -51,42 +51,32 @@ Begin
   {
     $folderOptionsRegistryPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
     $keys = @(
-      @{name = "AlwaysShowMenus"; value = 1; },
-      @{name = "Hidden"; value = 1; },
-      @{name = "HideDrivesWithNoMedia"; value = 0; },
-      @{name = "HideFileExt"; value = 0; },
-      @{name = "HideIcons"; value = 0; },
-      @{name = "HideMergeConflicts"; value = 0; },
-      @{name = "MapNetDrvBtn"; value = 1; },
-      @{name = "NavPaneShowAllFolders"; value = 1; },
-      @{name = "SharingWizardOn"; value = 0; },
-      @{name = "ShowCompColor"; value = 1; },
-      @{name = "ShowEncryptCompressedColor"; value = 1; },
-      @{name = "ShowExtensions"; value = 1; },
-      @{name = "ShowInfoTip"; value = 1; },
-      @{name = "ShowStatusBar"; value = 1; },
-      @{name = "ShowSuperHidden"; value = 1; }
+      @{name = "AlwaysShowMenus"; value = 1; type = "DWORD"; },
+      @{name = "Hidden"; value = 1; type = "DWORD";  },
+      @{name = "HideDrivesWithNoMedia"; value = 0; type = "DWORD";  },
+      @{name = "HideFileExt"; value = 0; type = "DWORD";  },
+      @{name = "HideIcons"; value = 0; type = "DWORD";  },
+      @{name = "HideMergeConflicts"; value = 0; type = "DWORD";  },
+      @{name = "MapNetDrvBtn"; value = 1; type = "DWORD";  },
+      @{name = "NavPaneShowAllFolders"; value = 1; type = "DWORD";  },
+      @{name = "SharingWizardOn"; value = 0; type = "DWORD";  },
+      @{name = "ShowCompColor"; value = 1; type = "DWORD";  },
+      @{name = "ShowEncryptCompressedColor"; value = 1; type = "DWORD";  },
+      @{name = "ShowExtensions"; value = 1; type = "DWORD";  },
+      @{name = "ShowInfoTip"; value = 1; type = "DWORD";  },
+      @{name = "ShowStatusBar"; value = 1; type = "DWORD";  },
+      @{name = "ShowSuperHidden"; value = 1; type = "DWORD"; }
     )
 
     foreach ($key in $keys)
     {
       $keyName = $key.name
       $keyValue = $key.value
-      $keyExists = Test-Path -Path "$($folderOptionsRegistryPath)\$($keyName)"
-      if ($keyExists)
-      {
-        $currentKeyValue = (Get-ItemProperty -Path "$($folderOptionsRegistryPath)\$($keyName)").$keyName
-        if ($currentKeyValue -ne $keyValue)
-        {
-          Write-Host "Updating $($keyName) to $($keyValue)."
-          Set-ItemProperty -Path "$($folderOptionsRegistryPath)\$($keyName)" -Name $keyName -Value $keyValue
-        }
-      }
-      else
-      {
-        Write-Host "Creating $($keyName) with value $($keyValue)."
-        New-ItemProperty -Path "$($folderOptionsRegistryPath)" -Name $keyName -Value $keyValue -PropertyType DWORD
-      }
+      $keyExists = $existingKeyList.Contains($keyName)
+      
+      #Going with the simplest route. Set-ItemProperty will create the key if it doesn't exist.
+      Write-Host "Updating $($keyName) to $($keyValue)."
+      Set-ItemProperty -Path $folderOptionsRegistryPath -Name $keyName -Value $keyValue -PropertyType DWORD
     }
   }
 }
