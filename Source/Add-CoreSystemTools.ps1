@@ -23,7 +23,7 @@ Process
   Test-AdminPermissions
   if (!$ExcludeWingetTools) { Add-WingetTools }
   if (!$ExcludePowerShellModules) { Add-PowerShellModules }
-  if (!$ExcludeGitConfigurations) { Add-GitConfigurations }
+  if (!$ExcludeGitConfigurations) { Set-GitConfigurations }
 }
 
 Begin
@@ -139,6 +139,7 @@ Begin
     $gpgAgentConfigFile = "$gpg-agent.conf"
     $customGitConfigSourcePath = "$($env:OneDriveConsumer)\Dev Settings\Git\.gitconfig"
     $isCustomGitConfigSourcePathValid = Test-Path $customGitConfigSourcePath
+    $timestamp = Get-Date -Format "yyyy-MM-dd_HH-mm-ss"
 
     # Check for required files and paths.
     if (!$isGPGConfigDestinationPathValid)
@@ -169,7 +170,9 @@ Begin
     if (Test-Path "$gpgConfigDestinationPath\$gpgConfigFile")
     {
       Write-Host "Backing up existing GPG config file."
-      Copy-Item "$($gpgConfigDestinationPath)\$($gpgConfigFile)" "$($gpgConfigDestinationPath)\$($gpgConfigFile).bak"
+      Copy-Item "$($gpgConfigDestinationPath)\$($gpgConfigFile)" "$($gpgConfigDestinationPath)\$($gpgConfigFile).$($timestamp).bak"
+      Write-Host "Removing existing GPG config file."
+      Remove-Item "$($gpgConfigDestinationPath)\$($gpgConfigFile)"
     }
     Write-Host "Creating SymLink to OneDrive GPG config file."
     New-Item -ItemType SymbolicLink -Path "$($gpgConfigDestinationPath)\$($gpgConfigFile)" -Target "$($gpgConfigSourcePath)\$($gpgConfigFile)"
@@ -177,7 +180,9 @@ Begin
     if (Test-Path "$gpgConfigDestinationPath\$scDaemonConfigFile")
     {
       Write-Host "Backing up existing scdaemon config file."
-      Copy-Item "$($gpgConfigDestinationPath)\$($scDaemonConfigFile)" "$($gpgConfigDestinationPath)\$($scDaemonConfigFile).bak"
+      Copy-Item "$($gpgConfigDestinationPath)\$($scDaemonConfigFile)" "$($gpgConfigDestinationPath)\$($scDaemonConfigFile).$($timestamp).bak"
+      Write-Host "Removing existing scdaemon config file."
+      Remove-Item "$($gpgConfigDestinationPath)\$($scDaemonConfigFile)"
     }
     Write-Host "Creating SymLink to OneDrive scdaemon config file."
     New-Item -ItemType SymbolicLink -Path "$($gpgConfigDestinationPath)\$($scDaemonConfigFile)" -Target "$($gpgConfigSourcePath)\$($scDaemonConfigFile)"
@@ -185,7 +190,9 @@ Begin
     if (Test-Path "$gpgConfigDestinationPath\$gpgAgentConfigFile")
     {
       Write-Host "Backing up existing gpg-agent config file."
-      Copy-Item "$($gpgConfigDestinationPath)\$($gpgAgentConfigFile)" "$($gpgConfigDestinationPath)\$($gpgAgentConfigFile).bak"
+      Copy-Item "$($gpgConfigDestinationPath)\$($gpgAgentConfigFile)" "$($gpgConfigDestinationPath)\$($gpgAgentConfigFile).$($timestamp).bak"
+      Write-Host "Removing existing gpg-agent config file."
+      Remove-Item "$($gpgConfigDestinationPath)\$($gpgAgentConfigFile)"
     }
     Write-Host "Creating SymLink to OneDrive gpg-agent config file."
     New-Item -ItemType SymbolicLink -Path "$($gpgConfigDestinationPath)\$($gpgAgentConfigFile)" -Target "$($gpgConfigSourcePath)\$($gpgAgentConfigFile)"
@@ -195,6 +202,8 @@ Begin
     {
       Write-Host "Backing up existing .gitconfig file."
       Copy-Item "$($env:USERPROFILE)\.gitconfig" "$($env:USERPROFILE)\.gitconfig.bak"
+      Write-Host "Removing existing .gitconfig file."
+      Remove-Item "$($env:USERPROFILE)\.gitconfig"
     }
     Write-Host "Creating SymLink to OneDrive .gitconfig file."
     New-Item -ItemType SymbolicLink -Path "$($env:USERPROFILE)\.gitconfig" -Target "$($customGitConfigSourcePath)"
