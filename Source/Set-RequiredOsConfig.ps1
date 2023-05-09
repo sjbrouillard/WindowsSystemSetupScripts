@@ -72,7 +72,6 @@ Begin
     {
       $keyName = $key.name
       $keyValue = $key.value
-      $keyExists = $existingKeyList.Contains($keyName)
       
       #Going with the simplest route. Set-ItemProperty will create the key if it doesn't exist.
       Write-Host "Updating $($keyName) to $($keyValue)."
