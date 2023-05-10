@@ -9,7 +9,7 @@ Process
 {
     Write-Host "This script will create Windows Defender exclusions for common Visual Studio 2022 folders and processes."
     Write-Host ""
-    Test-RootSourceCodFolder
+    Test-RootSourceCodeFolder
     Register-PathExclusions
     Register-ProcessExclusions
 }
