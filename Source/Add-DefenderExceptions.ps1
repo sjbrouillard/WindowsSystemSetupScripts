@@ -33,68 +33,62 @@ Begin
 
      function Register-PathExclusions 
      {
+        $pathExclusionList =  @(
+            @{Path = $RootSourceCodeFolder },
+            @{Path = "C:\Windows\Microsoft.NET" },
+            @{Path = "C:\Windows\assembly" },
+            @{Path = "$($env:USERPROFILE)\.dotnet" },
+            @{Path = "$($env:USERPROFILE)\.librarymanager" },
+            @{Path = "$($env:LOCALAPPDATA))\Microsoft\VisualStudio" },
+            @{Path = "$($env:LOCALAPPDATA))\Microsoft\VSApplicationInsights" },
+            @{Path = "$($env:LOCALAPPDATA))\Microsoft\VSCommon" },
+            @{Path = "$($env:LOCALAPPDATA))\Microsoft\VisualStudio Services" },
+            @{Path = "$($env:APPDATA))\Microsoft\VisualStudio" },
+            @{Path = "$($env:ProgramData))\Microsoft\VisualStudio" },
+            @{Path = "$($env:ProgramData))\Microsoft\NetFramework" },
+            @{Path = "$($env:ProgramData))\Microsoft\Visual Studio" },
+            @{Path = "$($env:ProgramData))\VSApplicationInsights" },
+            @{Path = "$($env:ProgramFiles))\dotnet" },
+            @{Path = "$($env:ProgramFiles))\IIS" },
+            @{Path = "$($env:ProgramFiles))\IIS Express" },
+            @{Path = "$($env:ProgramFiles))\Microsoft SDKs" },
+            @{Path = "$($env:ProgramFiles))\Microsoft SQL Server" },
+            @{Path = "$($env:ProgramFiles))\Microsoft Visual Studio" },
+            @{Path = "$($env:ProgramFiles))\Microsoft Visual Studio 10.0" },
+            @{Path = "$($env:ProgramFiles))\Microsoft VS Code" },
+            @{Path = "$(${Env:ProgramFiles(x86)})\dotnet"},
+            @{Path = "$(${Env:ProgramFiles(x86)})\IIS"},
+            @{Path = "$(${Env:ProgramFiles(x86)})\IIS Express"},
+            @{Path = "$(${Env:ProgramFiles(x86)})\Microsoft SDKs"},
+            @{Path = "$(${Env:ProgramFiles(x86)})\Microsoft SQL Server"},
+            @{Path = "$(${Env:ProgramFiles(x86)})\Microsoft Visual Studio"}
+        )
 
-        $userPath = $env:USERPROFILE
-        $pathExclusions = New-Object System.Collections.ArrayList
-
-        $pathExclusions.Add($RootSourceCodeFolder) | out-null
-        $pathExclusions.Add('C:\Windows\Microsoft.NET') | out-null
-        $pathExclusions.Add('C:\Windows\assembly') | out-null
-
-        $pathExclusions.Add($userPath + '\.dotnet') | out-null
-        $pathExclusions.Add($userPath + '\.librarymanager') | out-null
-
-        $pathExclusions.Add($userPath + '\AppData\Local\Microsoft\VisualStudio') | out-null
-        $pathExclusions.Add($userPath + '\AppData\Local\Microsoft\VisualStudio Services') | out-null
-        $pathExclusions.Add($userPath + '\AppData\Local\Microsoft\VSApplicationInsights') | out-null
-        $pathExclusions.Add($userPath + '\AppData\Local\Microsoft\VSCommon') | out-null
-
-        $pathExclusions.Add($userPath + '\AppData\Roaming\Microsoft\VisualStudio') | out-null
-
-        $pathExclusions.Add('C:\ProgramData\Microsoft\VisualStudio') | out-null
-        $pathExclusions.Add('C:\ProgramData\Microsoft\NetFramework') | out-null
-        $pathExclusions.Add('C:\ProgramData\Microsoft Visual Studio') | out-null
-        $pathExclusions.Add('C:\ProgramData\VSApplicationInsights') | out-null
-
-        $pathExclusions.Add('C:\Program Files\Microsoft Visual Studio') | out-null
-        $pathExclusions.Add('C:\Program Files\Microsoft Visual Studio 10.0') | out-null
-        $pathExclusions.Add('C:\Program Files\Microsoft VS Code') | out-null
-        $pathExclusions.Add('C:\Program Files\dotnet') | out-null
-        $pathExclusions.Add('C:\Program Files\Microsoft SDKs') | out-null
-        $pathExclusions.Add('C:\Program Files\Microsoft SQL Server') | out-null
-        $pathExclusions.Add('C:\Program Files\IIS') | out-null
-        $pathExclusions.Add('C:\Program Files\IIS Express') | out-null
-
-        $pathExclusions.Add('C:\Program Files (x86)\Microsoft Visual Studio') | out-null
-        $pathExclusions.Add('C:\Program Files (x86)\dotnet') | out-null
-        $pathExclusions.Add('C:\Program Files (x86)\Microsoft SDKs') | out-null
-        $pathExclusions.Add('C:\Program Files (x86)\Microsoft SQL Server') | out-null
-        $pathExclusions.Add('C:\Program Files (x86)\IIS') | out-null
-        $pathExclusions.Add('C:\Program Files (x86)\IIS Express') | out-null
-
-        foreach ($exclusion in $pathExclusions) 
+        foreach ($exclusion in $pathExclusionList) 
         {
-            Write-Host "Adding Path Exclusion: " $exclusion
-            Add-MpPreference -ExclusionPath $exclusion
+            $exclusionPath = $exclusion.Path
+            Write-Host "Adding Path Exclusion: " $exclusionPath
+            Add-MpPreference -ExclusionPath $exclusionPath
         }
      }
 
      function Register-ProcessExclusions
      {
-        $processExclusions = New-Object System.Collections.ArrayList
+        $processExclusionList = @(
+            @{Process = 'ServiceHub.SettingsHost.exe'},
+            @{Process = 'ServiceHub.IdentityHost.exe'},
+            @{Process = 'ServiceHub.VSDetouredHost.exe'},
+            @{Process = 'ServiceHub.Host.CLR.x86.exe'},
+            @{Process = 'Microsoft.ServiceHub.Controller.exe'},
+            @{Process = 'PerfWatson2.exe'},
+            @{Process = 'sqlwriter.exe'}
+        )
 
-        $processExclusions.Add('ServiceHub.SettingsHost.exe') | out-null
-        $processExclusions.Add('ServiceHub.IdentityHost.exe') | out-null
-        $processExclusions.Add('ServiceHub.VSDetouredHost.exe') | out-null
-        $processExclusions.Add('ServiceHub.Host.CLR.x86.exe') | out-null
-        $processExclusions.Add('Microsoft.ServiceHub.Controller.exe') | out-null
-        $processExclusions.Add('PerfWatson2.exe') | out-null
-        $processExclusions.Add('sqlwriter.exe') | out-null
-
-        foreach ($exclusion in $processExclusions)
+        foreach ($exclusion in $processExclusionList)
         {
-            Write-Host "Adding Process Exclusion: " $exclusion
-            Add-MpPreference -ExclusionProcess $exclusion
+            $exclusionProcess = $exclusion.Process
+            Write-Host "Adding Process Exclusion: " $exclusionProcess
+            Add-MpPreference -ExclusionProcess $exclusionProcess
         }
      }
 }
