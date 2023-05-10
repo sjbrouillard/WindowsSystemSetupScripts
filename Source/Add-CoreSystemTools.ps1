@@ -6,16 +6,16 @@ param (
     $AutoUpgrade = $true,
 
     [Parameter()]
-    [bool]
-    $ExcludeWingetTools = $false,
+    [switch]
+    $ExcludeWingetTools,
 
     [Parameter()]
-    [bool]
-    $ExcludeGitConfigurations = $false,
+    [switch]
+    $ExcludeGitConfigurations,
 
     [Parameter()]
-    [bool]
-    $ExcludePowerShellModules = $false
+    [switch]
+    $ExcludePowerShellModules
 )
 
 Process
