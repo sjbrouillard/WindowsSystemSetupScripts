@@ -9,12 +9,17 @@ param (
 
     [Parameter()]
     [switch]
-    $ExcludeSetFolderOptions
+    $ExcludeSetFolderOptions,
+
+    [Parameter()]
+    [switch]
+    $ExcludeLongPathSupport
 )
 
 Process
 {
   if (!$ExcludeAddingPoshScriptLocation) { Add-PoshScriptLocationToUserPath }
+  if (!$ExcludeLongPathSupport) { Set-LongPathEnabled }
   if (!$ExcludeSetFolderOptions) { Set-FolderOptions }
   Update-EnvironmentVariables
 }
@@ -45,6 +50,16 @@ Begin
 
     # Update path environment variable - needs to be handled separately
     $env:Path = [Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [Environment]::GetEnvironmentVariable("Path","User")
+  }
+
+  function Set-LongPathEnabled
+  {
+    $longPathEnabledRegistryPath = "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem"
+    $longPathEnabledRegistryName = "LongPathsEnabled"
+    $longPathEnabledRegistryValue = 1
+
+    Write-Host "Enabling long paths."
+    Set-ItemProperty -Path $longPathEnabledRegistryPath -Name $longPathEnabledRegistryName -Value $longPathEnabledRegistryValue
   }
 
   function Set-FolderOptions
