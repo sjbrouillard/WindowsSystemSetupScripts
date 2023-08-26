@@ -1,0 +1,158 @@
+{
+  "Toolsets" :
+  [
+    {
+      "ToolSetName" : "CoreWingetTools",
+      "Packages" :
+      [
+        {"id" : "Microsoft.PowerShell"},
+        {"id" : "Microsoft.PowerToys"},
+        {"id" : "JanDeDobbeleer.OhMyPosh"},
+        {"id" : "Microsoft.WindowsTerminal"},
+        {"id" : "Microsoft.OpenSSH.Beta"},
+        {"id" : "ShiningLight.OpenSSL" },
+        {"id" : "Docker.DockerDesktop"},
+        {"id" : "Git.Git"},
+        {"id" : "ScooterSoftware.BeyondCompare4"},
+        {"id" : "BinaryFortress.DisplayFusion"},
+        {"id" : "Microsoft.VisualStudioCode"},
+        {"id" : "Discord.Discord"},
+        {"id" : "JGraph.Draw"},
+        {"id" : "evernote.evernote"},
+        {"id" : "GnuPG.Gpg4win"},
+        {"id" : "HermannSchinagl.LinkShellExtension"},
+        {"id" : "Miro.Miro"},
+        {"id" : "NewTek.NDI5Tools"},
+        {"id" : "OBSProject.OBSStudio"},      
+        {"id" : "PuTTY.PuTTY"},
+        {"id" : "RaspberryPiFoundation.RaspberryPiImager"},
+        {"id" : "Rufus.Rufus"},
+        {"id" : "SlackTechnologies.Slack"},
+        {"id" : "Spotify.Spotify"},
+        {"id" : "TechSmith.Snagit.2023"},
+        {"id" : "Win32diskimager.win32diskimager"},
+        {"id" : "WinSCP.WinSCP"},
+        {"id" : "Corel.WinZip"},
+        {"id" : "WireGuard.WireGuard"},
+        {"id" : "Yubico.YubikeyManager"},
+        {"id" : "Yubico.Authenticator"},
+        {"id" : "Zoom.Zoom"}
+      ]
+    },
+    {
+      "ToolSetName" : "CorePowerShellModules",
+      "Packages" :
+      [
+        {"id" : "posh-git"},
+        {"id" : "Terminal-Icons"}
+      ]
+    },
+    {
+      "ToolSetName" : "AzureWingetTools",
+      "Packages" :
+      [
+        {"id" : "Microsoft.AzureCLI"},
+        {"id" : "Microsoft.Azure.AZCopy.10"},
+        {"id" : "Microsoft.AzureDataStudio"},
+        {"id" : "Microsoft.Azure.FunctionsCoreTools"},
+        {"id" : "Microsoft.Azure.CosmosEmulator"},
+        {"id" : "Microsoft.Azure.StorageExplorer"},
+        {"id" : "Microsoft.Azure.StorageEmulator"},
+        {"id" : "Microsoft.Bicep"},
+        {"id" : "Pulumi.Pulumi"},
+        {"id" : "Hashicorp.Terraform"},
+        {"id" : "Microsoft.Azure.Aztfy"}
+      ]
+    },
+    {
+      "ToolSetName" : "AzurePowerShellModules",
+      "Packages" :
+      [
+        {"id" : "Az"}
+      ]
+    },
+    {
+      "ToolSetName" : "DevWingetTools",
+      "Packages" : 
+      [
+        {"id" : "Curl.Curl"},
+        {"id" : "Docker.DockerDesktop"},
+        {"id" : "OpenJS.NodeJS"},
+        {"id" : "Microsoft.VisualStudio.$($VsVersion).$($vsEdition)"},
+        {"id" : "KirillOsenkov.MSBuildStructuredLogViewer"},
+        {"id" : "Microsoft..VisualStudio.$($VsVersion).BuildTools"},
+        {"id" : "Microsoft.VisualStudio.ConfigFinder"},
+        {"id" : "Microsoft.VisualStudioCode"},
+        {"id" : "LINQPad.LINQPad.7"},
+        {"id" : "Postman.Postman"},
+        {"id" : "Postman.Postman.DesktopAgent"},
+        {"id" : "Microsoft.PowerAutomateDesktop"}
+      ]
+    },
+    {
+      "ToolSetName" : "VsCodeExtenstions",
+      "Packages" :
+      [
+        {"id" : "ms-dotnettools.vscode-dotnet-runtime"},
+        {"id" : "wilfriedwoivre.arm-params-generator"},
+        {"id" : "ms-vscode.powershell"},
+        {"id" : "bencoleman.armview"},
+        {"id" : "ms-vscode.azure-account"},
+        {"id" : "ms-azuretools.vscode-azureappservice"},
+        {"id" : "ms-vscode.azurecli"},
+        {"id" : "ms-azuretools.vscode-azurecontainerapps"},
+        {"id" : "ms-azuretools.vscode-cosmosdb"},
+        {"id" : "ms-azuretools.azure-dev"},
+        {"id" : "ms-azuretools.vscode-azurefunctions"},
+        {"id" : "ms-azure-devops.azure-pipelines"},
+        {"id" : "terWoordComputers.azure-pipelines-overview"},
+        {"id" : "TomAustin.azure-devops-yaml-pipeline-validator"},
+        {"id" : "AzurePolicy.azurepolicyextension"},
+        {"id" : "msazurermtools.azurerm-vscode-tools"},
+        {"id" : "ms-azuretools.vscode-azureresourcegroups"},
+        {"id" : "ms-azuretools.vscode-azurestaticwebapps"},
+        {"id" : "ms-azuretools.vscode-azurestorage"},
+        {"id" : "ms-vscode.vscode-node-azure-pack"},
+        {"id" : "ms-azuretools.vscode-azurevirtualmachines"},
+        {"id" : "ms-azuretools.vscode-bicep"},
+        {"id" : "mindaro.mindaro"},
+        {"id" : "ms-dotnettools.csharp"},
+        {"id" : "ms-vscode-remote.remote-containers"},
+        {"id" : "ms-azuretools.vscode-docker"},
+        {"id" : "mindaro-dev.file-downloader"},
+        {"id" : "Shinotatwu-DS.file-tree-generator"},
+        {"id" : "ms-vscode-remote.remote-ssh"},
+        {"id" : "ms-vscode-remote.remote-ssh-edit"},
+        {"id" : "github.vscode-github-actions"},
+        {"id" : "GitHub.copilot"},
+        {"id" : "eamodio.gitlens"},
+        {"id" : "golang.go"},
+        {"id" : "hashicorp.terraform"},
+        {"id" : "af4jm.vscode-icalendar"},
+        {"id" : "VisualStudioExptTeam.vscodeintellicode"},
+        {"id" : "VisualStudioExptTeam.intellicode-api-usage-examples"},
+        {"id" : "ms-python.isort"},
+        {"id" : "ZainChen.json"},
+        {"id" : "ms-toolsai.jupyter"},
+        {"id" : "ms-toolsai.vscode-jupyter-cell-tags"},
+        {"id" : "ms-toolsai.jupyter-keymap"},
+        {"id" : "ms-toolsai.jupyter-renderers"},
+        {"id" : "ms-toolsai.jupyter-renderers-vscode"},
+        {"id" : "ms-toolsai.vscode-jupyter-slideshow"},
+        {"id" : "ms-kubernetes-tools.vscode-kubernetes-tools"},
+        {"id" : "DavidAnson.vscode-markdownlint"},
+        {"id" : "esbenp.prettier-vscode"},
+        {"id" : "ms-python.vscode-pylance"},
+        {"id" : "ms-python.vscode-pylance-pack"},
+        {"id" : "ms-python.python"},
+        {"id" : "donjayamanne.python-environment-manager"},
+        {"id" : "donjayamanne.python-extension-pack"},
+        {"id" : "KevinRose.vsc-python-indent"},
+        {"id" : "ms-vscode-remote.remote-wsl"},
+        {"id" : "ms-vscode-remote.remote-wsl-explorer"},
+        {"id" : "redhat.vscode-yaml"}
+      ]
+    }
+  ]
+  
+}

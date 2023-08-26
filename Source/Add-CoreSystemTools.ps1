@@ -6,6 +6,10 @@ param (
     $AutoUpgrade = $true,
 
     [Parameter()]
+    [string]
+    $ToolSetPath = "$($PSScriptRoot)\Toolsets.json",
+
+    [Parameter()]
     [switch]
     $ExcludeWingetTools,
 
@@ -21,6 +25,8 @@ param (
 Process
 {
   Test-AdminPermissions
+  Test-ToolSetPath
+  Set-ToolSets
   if (!$ExcludeWingetTools) { Add-WingetTools }
   if (!$ExcludePowerShellModules) { Add-PowerShellModules }
   if (!$ExcludeGitConfigurations) { Set-GitConfigurations }
@@ -38,42 +44,32 @@ Begin
       exit
     }
   }
+
+  function Test-ToolSetPath
+  {
+    if ([string]::IsNullOrWhiteSpace($ToolSetPath))
+    {
+      Throw "ToolSetPath parameter can't be null or empty."
+    }
+
+    if (!(Test-Path $ToolSetPath))
+    {
+      Throw "$($ToolSetPath) not found. Please validate path."
+    }
+  }
+
+  function Set-ToolSets
+  {
+
+    $private:rawToolsetJson = Get-Content -Path "$($PSScriptRoot)\Toolsets.json" -Raw
+    $private:rawObject = $private:rawToolsetJson | ConvertFrom-Json
+    $script:coreWingetToolset = $private:rawObject.Toolsets | Where-Object { $_.ToolsetName -eq "CoreWingetTools" }
+    $script:corePowerShellModuleToolset = $private:rawObject.Toolsets | Where-Object { $_.ToolsetName -eq "CorePowerShellModules" }
+  }
+
   function Add-WingetTools
   {
-    $toolList = @(
-      @{id = "Microsoft.PowerShell"; },
-      @{id = "Microsoft.PowerToys"; },
-      @{id = "JanDeDobbeleer.OhMyPosh"; },
-      @{id = "Microsoft.WindowsTerminal"; },
-      @{id = "Microsoft.OpenSSH.Beta"; },
-      @{id = "ShiningLight.OpenSSL"; },
-      @{id = "Docker.DockerDesktop"},
-      @{id = "Git.Git"},
-      @{id = "ScooterSoftware.BeyondCompare4"},
-      @{id = "BinaryFortress.DisplayFusion"},
-      @{id = "Microsoft.VisualStudioCode"},
-      @{id = "Discord.Discord"},
-      @{id = "JGraph.Draw"},
-      @{id = "evernote.evernote"},
-      @{id = "GnuPG.Gpg4win"},
-      @{id = "HermannSchinagl.LinkShellExtension"},
-      @{id = "Miro.Miro"},
-      @{id = "NewTek.NDI5Tools"},
-      @{id = "OBSProject.OBSStudio"},      
-      @{id = "PuTTY.PuTTY"},
-      @{id = "RaspberryPiFoundation.RaspberryPiImager"},
-      @{id = "Rufus.Rufus"},
-      @{id = "SlackTechnologies.Slack"},
-      @{id = "Spotify.Spotify"},
-      @{id = "TechSmith.Snagit.2023"},
-      @{id = "Win32diskimager.win32diskimager"},
-      @{id = "WinSCP.WinSCP"},
-      @{id = "Corel.WinZip"},
-      @{id = "WireGuard.WireGuard"},
-      @{id = "Yubico.YubikeyManager"},
-      @{id = "Yubico.Authenticator"},
-      @{id = "Zoom.Zoom"}
-    )
+    $toolList = $script:coreWingetToolset.Packages
 
     foreach ($tool in $toolList)
     {
@@ -97,15 +93,12 @@ Begin
 
   function Add-PowerShellModules
   {
-    $powerShellModuleList =@(
-      @{moduleName = "posh-git"; },
-      @{moduleName = "Terminal-Icons"; }
-    )
+    $powerShellModuleList = $script:corePowerShellModuleToolset.Packages
 
     foreach ($module in $powerShellModuleList)
     {
       # Check if the module is already installed. Upgrade if it is and AutoUpgrade is true.
-      $moduleName = $module.moduleName
+      $moduleName = $module.id
       $moduleInfo = Get-Module -ListAvailable -Name $moduleName
       if ($moduleInfo)
       {

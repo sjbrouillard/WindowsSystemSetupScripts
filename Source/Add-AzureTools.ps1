@@ -5,6 +5,10 @@ param (
     $AutoUpgrade = $true,
 
     [Parameter()]
+    [string]
+    $ToolSetPath = "$($PSScriptRoot)\Toolsets.json",
+
+    [Parameter()]
     [bool]
     $ExcludeWingetTools = $false,
 
@@ -16,6 +20,8 @@ param (
 Process
 {
   Test-AdminPermissions
+  Test-ToolSetPath
+  Set-ToolSets
   if (!$ExcludeWingetTools) { Add-WingetTools }
   if (!$ExcludePowerShellModules) { Add-PowerShellModules }
 }
@@ -33,21 +39,30 @@ Begin
     }
   }
 
+  function Test-ToolSetPath
+  {
+    if ([string]::IsNullOrWhiteSpace($ToolSetPath))
+    {
+      Throw "ToolSetPath parameter can't be null or empty."
+    }
+
+    if (!(Test-Path $ToolSetPath))
+    {
+      Throw "$($ToolSetPath) not found. Please validate path."
+    }
+  }
+
+  function Set-ToolSets
+  {
+    $private:rawToolsetJson = Get-Content -Path "$($PSScriptRoot)\Toolsets.json" -Raw
+    $private:rawObject = $private:rawToolsetJson | ConvertFrom-Json
+    $script:azureWingetToolset = $private:rawObject.Toolsets | Where-Object { $_.ToolsetName -eq "AzureWingetTools" }
+    $script:azurePowerShellModuleToolset = $private:rawObject.Toolsets | Where-Object { $_.ToolsetName -eq "AzurePowerShellModules" }
+  }
+
   function Add-WingetTools
   {
-    $wingetToolList = @(
-      @{id = "Microsoft.AzureCLI"; },
-      @{id = "Microsoft.Azure.AZCopy.10"; },
-      @{id = "Microsoft.AzureDataStudio"; },
-      @{id = "Microsoft.Azure.FunctionsCoreTools"; },
-      @{id = "Microsoft.Azure.CosmosEmulator"; },
-      @{id = "Microsoft.Azure.StorageExplorer"; },
-      @{id = "Microsoft.Azure.StorageEmulator"; },
-      @{id = "Microsoft.Bicep"; },
-      @{id = "Pulumi.Pulumi"; },
-      @{id = "Hashicorp.Terraform"; },
-      @{id = "Microsoft.Azure.Aztfy"; }
-    )
+    $wingetToolList = $script:azureWingetToolset.Packages
 
     foreach ($tool in $wingetToolList)
     {
@@ -72,14 +87,12 @@ Begin
 
   function Add-PowerShellModules
   {
-    $powerShellModuleList =@(
-      @{moduleName = "Az"; }
-    )
+    $powerShellModuleList = $script:azurePowerShellModuleToolset.Packages
 
     foreach ($module in $powerShellModuleList)
     {
       # Check if the module is already installed. Upgrade if it is and AutoUpgrade is true.
-      $moduleName = $module.moduleName
+      $moduleName = $module.id
       $moduleInfo = Get-Module -ListAvailable -Name $moduleName
       if ($moduleInfo)
       {
