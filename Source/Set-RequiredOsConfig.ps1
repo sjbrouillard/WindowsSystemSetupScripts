@@ -64,8 +64,8 @@ Begin
 
   function Set-FolderOptions
   {
-    $folderOptionsRegistryPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
-    $keys = @(
+    $folderViewOptionsRegistryPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
+    $viewKeys = @(
       @{name = "AlwaysShowMenus"; value = 1; },
       @{name = "Hidden"; value = 1;  },
       @{name = "HideDrivesWithNoMedia"; value = 0;  },
@@ -83,14 +83,33 @@ Begin
       @{name = "ShowSuperHidden"; value = 1; }
     )
 
-    foreach ($key in $keys)
+    #Set the view options contained in the ...\Explorer\Advanced registry key
+    foreach ($key in $viewKeys)
     {
       $keyName = $key.name
       $keyValue = $key.value
       
       #Going with the simplest route. Set-ItemProperty will create the key if it doesn't exist.
-      Write-Host "Updating $($keyName) to $($keyValue)."
-      Set-ItemProperty -Path $folderOptionsRegistryPath -Name $keyName -Value $keyValue
+      Write-Host "Updating $($folderViewOptionsRegistryPath)\$($keyName) to $($keyValue)."
+      Set-ItemProperty -Path $folderViewOptionsRegistryPath -Name $keyName -Value $keyValue
+    }
+
+    #Set the general options contained in the ...\Explorer registry key
+    $folderGeneralOptionsRegistryPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer"
+    $generalKeys = @(
+      @{name = "ShowCloudFilesInQuickAccess"; value = 0; },
+      @{name = "ShowRecent"; value = 0; },
+      @{name = "ShowFrequent"; value = 0; }
+    )
+
+    foreach ($key in $generalKeys)
+    {
+      $keyName = $key.name
+      $keyValue = $key.value
+      
+      #Going with the simplest route. Set-ItemProperty will create the key if it doesn't exist.
+      Write-Host "Updating $($folderGeneralOptionsRegistryPath)\$($keyName) to $($keyValue)."
+      Set-ItemProperty -Path $folderGeneralOptionsRegistryPath -Name $keyName -Value $keyValue
     }
   }
 }
