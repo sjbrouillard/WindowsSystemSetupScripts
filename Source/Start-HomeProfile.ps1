@@ -1,6 +1,3 @@
-Write-Host "Starting BEACN App..."
-Start-Process -FilePath "C:\Program Files\BEACN\BEACN App\BEACN.exe"
-
 Write-Host "Starting Display Pilot 2..."
 Start-Process -FilePath "C:\Program Files\BenQ\Display Pilot 2\Display Pilot 2.exe"
 
@@ -36,3 +33,9 @@ Start-Process -FilePath "C:\Program Files (x86)\Datacolor\SpyderXElite\Utility\S
 
 Write-Host "Starting Dyn Updater..."
 Start-Process -FilePath "C:\Program Files (x86)\Dyn\Updater\dyn_updater.exe"
+
+Write-Host "Waiting to start BEACN App..."
+Start-Sleep -Seconds 10
+
+Write-Host "Starting BEACN App..."
+Start-Process -FilePath "C:\Program Files\BEACN\BEACN App\BEACN.exe"
