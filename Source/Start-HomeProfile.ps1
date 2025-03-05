@@ -73,6 +73,8 @@ begin {
 
         Write-Host "Starting BEACN App..."
         Start-Process -FilePath "C:\Program Files\BEACN\BEACN App\BEACN.exe"
+
+        Exit
     }
 
 }
