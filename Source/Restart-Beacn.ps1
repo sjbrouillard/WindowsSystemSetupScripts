@@ -1,5 +1,5 @@
 Write-Host "Stopping BEACN App..."
-Stop-Process -Name BEACN -Force
+Stop-Process -Name BEACN -Force -ErrorAction SilentlyContinue
 
 Write-Host "Waiting 10 seconds to restart BEACN App..."
 Start-Sleep -Seconds 10
