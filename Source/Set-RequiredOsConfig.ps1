@@ -129,6 +129,7 @@ Begin
     $bootStatusRegistryValue = 1
     Write-Host "Enabling verbose boot status."
     Set-ItemProperty -Path $bootStatusRegistryPath -Name $bootStatusRegistryName -Value $bootStatusRegistryValue
+  }
 }
 
 End
