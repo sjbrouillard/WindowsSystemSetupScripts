@@ -13,7 +13,15 @@ param (
 
     [Parameter()]
     [switch]
-    $ExcludeLongPathSupport
+    $ExcludeLongPathSupport,
+
+    [Parameter()]
+    [switch]
+    $ExcludeVerboseBootStatus,
+
+    [Parameter()]
+    [switch]
+    $ExcludeUpdateEnvironmentVariables
 )
 
 Process
@@ -21,7 +29,8 @@ Process
   if (!$ExcludeAddingPoshScriptLocation) { Add-PoshScriptLocationToUserPath }
   if (!$ExcludeLongPathSupport) { Set-LongPathEnabled }
   if (!$ExcludeSetFolderOptions) { Set-FolderOptions }
-  Update-EnvironmentVariables
+  if (!$ExcludeVerboseBootStatus) { Set-VerboseBootStatus }
+  if (!$ExcludeUpdateEnvironmentVariables) { Update-EnvironmentVariables }
 }
 
 Begin
@@ -112,6 +121,14 @@ Begin
       Set-ItemProperty -Path $folderGeneralOptionsRegistryPath -Name $keyName -Value $keyValue
     }
   }
+
+  function Set-VerboseBootStatus
+  {
+    $bootStatusRegistryPath = "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System"
+    $bootStatusRegistryName = "VerboseStatus"
+    $bootStatusRegistryValue = 1
+    Write-Host "Enabling verbose boot status."
+    Set-ItemProperty -Path $bootStatusRegistryPath -Name $bootStatusRegistryName -Value $bootStatusRegistryValue
 }
 
 End
