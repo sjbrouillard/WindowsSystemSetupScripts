@@ -37,6 +37,7 @@
         {"id" : "Yubico.YubikeyManager"},
         {"id" : "Yubico.Authenticator"},
         {"id" : "Zoom.Zoom"}
+        {"id" : "BinaryFortress.DisplayFusion"}
       ]
     },
     {
