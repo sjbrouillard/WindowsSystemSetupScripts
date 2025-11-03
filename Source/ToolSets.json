@@ -44,6 +44,8 @@
       "Packages" :
       [
         {"id" : "posh-git"},
+        {"id" : "PowerShellGet"},
+        {"id" : "PSReadLine"},
         {"id" : "Terminal-Icons"}
       ]
     },
