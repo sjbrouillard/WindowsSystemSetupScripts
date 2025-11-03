@@ -82,7 +82,7 @@ Begin
       @{name = "HideIcons"; value = 0;  },
       @{name = "HideMergeConflicts"; value = 0;  },
       @{name = "MapNetDrvBtn"; value = 1;  },
-      @{name = "NavPaneShowAllFolders"; value = 1;  },
+      @{name = "NavPaneShowAllFolders"; value = 0;  },
       @{name = "SharingWizardOn"; value = 0;  },
       @{name = "ShowCompColor"; value = 1;  },
       @{name = "ShowEncryptCompressedColor"; value = 1;  },
