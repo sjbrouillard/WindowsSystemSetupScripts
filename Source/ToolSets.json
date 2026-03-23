@@ -82,7 +82,7 @@
         {"id" : "OpenJS.NodeJS"},
         {"id" : "Microsoft.VisualStudio.$($VsVersion).$($vsEdition)"},
         {"id" : "KirillOsenkov.MSBuildStructuredLogViewer"},
-        {"id" : "Microsoft..VisualStudio.$($VsVersion).BuildTools"},
+        {"id" : "Microsoft.VisualStudio.$($VsVersion).BuildTools"},
         {"id" : "Microsoft.VisualStudio.ConfigFinder"},
         {"id" : "Microsoft.VisualStudioCode"},
         {"id" : "LINQPad.LINQPad.7"},
